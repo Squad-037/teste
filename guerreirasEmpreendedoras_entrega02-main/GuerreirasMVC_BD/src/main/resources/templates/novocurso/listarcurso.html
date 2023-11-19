@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-bs-theme="dark"  xmlns:th="www.thymeleaf.org">
+<!-- <html lang="pt-BR" data-bs-theme="dark"  xmlns:th="http://www.thymeleaf.org"> -->
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,7 +19,7 @@
 
 	<!-- Fivecon -->
 	<link rel="shortcut icon" href="./img/favicons/Mae.png" type="image/x-icon" />
-	<title>Listagem de Cadastro</title>
+	<title>Listagem de Cursos</title>
 </head>
 <body>
 	<!-- Navbar -->
@@ -40,47 +41,58 @@
 							<th scope="col">Descrição</th>
 							<th scope="col">Nível</th>
 							<th scope="col">Valor</th>
+							<th scope="col">Imagem</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="cursos : ${cursos}">
-							<th scope="row" th:text="${cursos.id}"></th>
-							<td>
-								<a th:text="${cursos.nome_curso}" th:href="@{/novocurso/{id} (id=${novocurso.id})}"></a>
-							</td>
-							<td th:text="${cursos.descricao}"></td>
-							<!-- <td th:text="${cursos.nivel}"></td> -->
-							<td th:text="${cursos.valor}"></td>
-							
-							
-							<!--
-							<td>
-       						 	<img alt="Image" class="img_prod" height="70px" width="50px"
-        					 	th:src="|/cliente/imagem/${cliente.id}|" />
- 
-      						 </td> -->
-							
-							
-							
-							
-							
-							<td>
-								<a th:href="@{/cursos/{id}/editar (id=${cursos.id})}" class="btn btn-warning">
-									Editar
-								</a>
-								<a th:href="@{/cursos/{id}/excluir (id=${cursos.id})}" class="btn btn-danger"
-									onclick="return confirm('Tem certeza que deseja excluir o cadastro?');">
-									Excluir
-								</a>
-							</td>
-						</tr>
+				<tr th:each="cursos : ${cursos}">
+					    <th scope="row" th:text="${cursos.id}"></th>
+					    
+						
+						<td>
+    						<a th:text="${cursos.nome_curso}" th:href="@{/novocurso/{id} (id=${cursos.id})}"></a>
+						</td>
+						
+			
+						
+
+
+					    <td th:text="${cursos.descricao}"></td>
+					    <td th:text="${cursos.nivel}"></td>
+					    <td th:text="${cursos.valor}"></td>
+					    
+					   <!-- <td>
+       					 <img alt="Image" class="img_prod" height="70px" width="50px"
+     					th:src="@{/novocurso/imagem/{id}(id=${cursos.id})}" />
+      				 	</td> -->
+      				 	
+      				 	<td>
+    						<img alt="Image" class="img_prod" height="70px" width="50px"
+        					th:src="@{'/novocurso/imagem/' + ${cursos.id}}" />
+						</td>
+
+					    
+					    
+					    
+					    
+					    <td>
+					        <a th:href="@{/novocurso/{id}/editar (id=${cursos.id})}" class="btn btn-warning">
+					            Editar
+					        </a>
+					       <a th:href="@{/novocurso/{id}/excluir (id=${cursos.id})}" class="btn btn-danger"
+					            onclick="return confirm('Tem certeza que deseja excluir o cadastro?');">
+					            Excluir 
+					        </a> 
+					    </td>
+					</tr>
+																				
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
-				<a th:href="@{/novocurso/listarcurso}" class="btn btn-primary">Cadastrar novo Usuario</a>
+				<a th:href="@{/novocurso/novocurso}" class="btn btn-primary">Cadastrar novo Usuario</a>
 			</div>
 		</div>
 	</main>

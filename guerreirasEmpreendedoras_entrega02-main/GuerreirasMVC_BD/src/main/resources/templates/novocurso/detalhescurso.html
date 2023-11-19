@@ -29,35 +29,47 @@
 				<h1>Detalhes do Curso</h1>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="card">
-					<h5 class="card-header" th:text="${cursos.nome_curso}"></h5>
-					<div class="card-body">
-						<p>
-							Descrição: <span th:text="${cursos.descricao}"></span>
-						</p>
-						<p>
-							Nível: <span th:text="${cursos.nivel}"></span>
-						</p>
-						<p>
-							Valor: <span th:text="${cursos.valor}"></span>
-						</p>
-										
-						
-						<td>
-							<a th:href="@{/cursos/{id}/editar (id=${cursos.id})}" class="btn btn-warning">
-								Editar
-							</a>
-							<a th:href="@{/cursos/{id}/excluir (id=${cursos.id})}" class="btn btn-danger"
-								onclick="return confirm('Tem certeza que deseja excluir o cadastro?');">
-								Excluir
-							</a>
-						</td>						
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <h5 class="card-header" th:text="${cursos.nome_curso}"></h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            Descrição: <span th:text="${cursos.descricao}"></span>
+                        </p>
+                        <p>
+                            Nível: <span th:text="${cursos.nivel}"></span>
+                        </p>
+                        <p>
+                            Valor: <span th:text="${cursos.valor}"></span>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <img alt="Image" class="img_prod rounded float-end" style="width: 200px; height: 200px;" th:src="@{'/novocurso/imagem/' + ${cursos.id}}" />
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-12 mt-auto">
+                        <a th:href="@{/novocurso/{id}/editar (id=${cursos.id})}" class="btn btn-warning">
+                            Editar
+                        </a>
+                        <a th:href="@{/novocurso/{id}/excluir (id=${cursos.id})}" class="btn btn-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir o cadastro?');">
+                            Excluir
+                        </a>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 	</main>
 	<!-- RODAPÉ -->
 	<div class="container" th:replace="base :: footer"></div>	

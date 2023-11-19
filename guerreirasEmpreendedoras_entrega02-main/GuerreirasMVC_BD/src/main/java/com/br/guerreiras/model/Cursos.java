@@ -1,19 +1,21 @@
 package com.br.guerreiras.model;
-import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+import java.io.IOException;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "cursos") // Adicione o nome da tabela, se necessário
 public class Cursos {
 
     @Id
@@ -25,21 +27,28 @@ public class Cursos {
 
     @Column(nullable = false)
     private String descricao;
-    
+
     @Column(nullable = false)
     private String valor;
     
-    //IMAGEM DO CURSO
-    @Column(columnDefinition = "longblob")
-  	private byte[] imagem;
- 
+    
+    @Lob
+    @Column(name = "imagem", columnDefinition = "LONGBLOB")
+    private byte[] imagemBytes;
+    
+    public void setImagem(MultipartFile imagem) throws IOException {
+        this.imagemBytes = imagem.getBytes();
+    }
+    
+
     // Novo campo 'nivel' como um enum
     public enum Nivel {
-        FACIL,
-        INTERMEDIARIO,
-        DIFICIL
+        Fácil,
+        Intermediário,
+        Difícil
     }
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Nivel nivel;
 
@@ -51,76 +60,52 @@ public class Cursos {
     public void setNivel(Nivel nivel) {
         this.nivel = nivel;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    // Outros métodos e atributos
+
     public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome_curso() {
-		return nome_curso;
-	}
-
-	public void setNome_curso(String nome_curso) {
-		this.nome_curso = nome_curso;
-	}
-
-	
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public String getValor() {
-		return valor;
-	}
-
-	public void setValor(String valor) {
-		this.valor = valor;
-	}
-
-
-	
-	public byte[] getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
-	}
-
-	public Cursos() {
+        return id;
     }
-   
-    @Override
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome_curso() {
+        return nome_curso;
+    }
+
+    public void setNome_curso(String nome_curso) {
+        this.nome_curso = nome_curso;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
+    public byte[] getImagemBytes() {
+        return imagemBytes;
+    }
+
+    public void setImagemBytes(byte[] imagemBytes) {
+        this.imagemBytes = imagemBytes;
+    }
+
+    public Cursos() {
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -128,6 +113,7 @@ public class Cursos {
         result = prime * result + ((nome_curso == null) ? 0 : nome_curso.hashCode());
         result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
         result = prime * result + ((valor == null) ? 0 : valor.hashCode());
+        result = prime * result + ((nivel == null) ? 0 : nivel.hashCode());
         return result;
     }
 
@@ -137,54 +123,61 @@ public class Cursos {
             return true;
         if (obj == null || getClass() != obj.getClass())
             return false;
-        
+
         Cursos other = (Cursos) obj;
-        
+
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        
+
         if (nome_curso == null) {
             if (other.nome_curso != null)
                 return false;
         } else if (!nome_curso.equals(other.nome_curso))
             return false;
-        
+
         if (descricao == null) {
             if (other.descricao != null)
                 return false;
         } else if (!descricao.equals(other.descricao))
             return false;
-        
+
         if (valor == null) {
             if (other.valor != null)
                 return false;
         } else if (!valor.equals(other.valor))
             return false;
-        
+
+        if (nivel == null) {
+            if (other.nivel != null)
+                return false;
+        } else if (!nivel.equals(other.nivel))
+            return false;
+
         return true;
     }
 
+    public Cursos(Long id, String nome_curso, String descricao, String valor, Nivel nivel, byte[] imagemBytes) {
+        this.id = id;
+        this.nome_curso = nome_curso;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.nivel = nivel;
+        this.imagemBytes = imagemBytes;
+    }
 
-	public Cursos(Long id, String nome_curso, LocalDate dataNascimento, String descricao, String valor, String redeSocial,
-			String email, String senha) {
-		super();
-		this.id = id;
-		this.nome_curso = nome_curso;
-		this.descricao = descricao;
-		this.valor = valor;
-	}
-
-
-	@Override
-	public String toString() {
-	    return "Cursos [id=" + id + ", nome_curso=" + nome_curso + ", descricao=" + descricao
-	            + ", valor=" + valor + "]";
-	}
-
-
-   
-    
+    @Override
+    public String toString() {
+        return "Cursos [id=" + id + ", nome_curso=" + nome_curso + ", descricao=" + descricao + ", valor=" + valor
+                + ", nivel=" + nivel + "]";
+    }
 }
+
+
+
+// IMAGEM DO CURSO
+// @Column(columnDefinition = "longblob")
+ //private byte[] imagem;
+ 
